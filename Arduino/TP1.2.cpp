@@ -331,21 +331,26 @@ void generarEvento()
             timeout = false;
             lct = ct;
 
-            if (verificarEstadoSensorPir())
+            if(estado == ESTADO_HIPNOTIZANDO)
             {
-                evento.tipo = TIPO_EVENTO_PERSONA_DETECTADA;
-                return;
-            }
-            if (verificarEstadoSensorTemperatura())
+                if (verificarInterruptor())
+                {
+                    evento.tipo = TIPO_EVENTO_LIBERAR_SALA;
+                    return;
+                }
+            }else
             {
-                evento.tipo = TIPO_EVENTO_SALA_LLENA;
-                return;
-            }
-            if (verificarInterruptor())
-            {
-                evento.tipo = TIPO_EVENTO_LIBERAR_SALA;
-                return;
-            }
+                if (verificarEstadoSensorPir())
+                {
+                    evento.tipo = TIPO_EVENTO_PERSONA_DETECTADA;
+                    return;
+                }
+                if (verificarEstadoSensorTemperatura())
+                {
+                    evento.tipo = TIPO_EVENTO_SALA_LLENA;
+                    return;
+                }
+            } 
         }
     }
     evento.tipo = TIPO_EVENTO_CONTINUE;
